@@ -1,0 +1,32 @@
+first line will have unset variable death (program should run with absolute path of os img)
+
+then prompt... "The micro SD should not be in your machine yet.
+                 ... is it in your machine? [y/n]
+                  y -> eject it safely from your machine! (goes back to the question)
+                  n -> gathering set of existing filesystems of local machine...
+                       gathered:
+                         // the output is the first "column" of df (sans the first line, the headers)
+                         // the tricky issue: filesystem names can have spaces, so it's not an awk that grabs the first argument
+                         // (Filesystem is the first title, then one or more spaces... then another title. The index of that second title is the alignment of all following rows' second columns.
+                         //  ...... so, cut each line at that char, then remove the last element. All remaining elements are the filesystem name)
+
+this output is sorted and stored in a temporary file descriptor, to be used in one moment...
+
+another prompt: "Insert the micro SD into your machine, then press [ENTER] to proceed..."
+                  [ENTER] -> gathering of the Filesystem names agin, just as before, storing them in a file descriptor sorted and reading them out
+
+commm the 2 FDesc's to find differences in the sets.
+
+warn if some went missing
+
+warn if none new were detected.... : "No new filesystems detected. Are you sure you inserted that bad boy?
+                                      To abort, enter [A/a]. Otherwise, after checking / reinserting, press [ENTER] (then it loops back...)
+
+after new is detected, output all new.
+
+Warn emphatically that they will be overwritten, and ask if ok [y/Y] to proceed
+                  Y/y -> do overwrite, warning that it takes time and won't give readouts (oohhhh, could be fun to issue those SIGSTATUS signals or whatever, though)
+                  anything else -> "abort? [y/n]
+                     Y/y -> exit
+                     N/n -> loop back to ok-to-proceed-with-overwrite bit
+                  

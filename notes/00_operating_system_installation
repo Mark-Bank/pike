@@ -1,0 +1,63 @@
+# this is a log of the commands executed to install a Raspbian OS on a Raspberry Pi
+# the os version: Raspbian Stretch Lite (release date: 2017-09-07 kernel version: 4.9)
+# the pi version: Raspberry Pi 3 Model B
+# these instructions are compiled from the "Alternative method" section of https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
+
+# note: the image of raspbian stretch lite has already been retrieved, located at /Users/mark/workspaces/images/2017-09-07-raspbian-stretch-lite.img
+
+# note.... that `diskutil list` provides similar utility; it may be that an optimal-for-scripting method could be derived
+$ df -h
+Filesystem      Size   Used  Avail Capacity iused    ifree %iused  Mounted on
+/dev/disk1     112Gi   32Gi   80Gi    29% 8435939 20887323   29%   /
+devfs          186Ki  186Ki    0Bi   100%     643        0  100%   /dev
+map -hosts       0Bi    0Bi    0Bi   100%       0        0  100%   /net
+map auto_home    0Bi    0Bi    0Bi   100%       0        0  100%   /home
+
+[$] insert the micro sd card (enclosed in an adapter) into local machine
+
+$ df -h
+Filesystem      Size   Used  Avail Capacity iused    ifree %iused  Mounted on
+/dev/disk1     112Gi   32Gi   80Gi    29% 8435991 20887271   29%   /
+devfs          187Ki  187Ki    0Bi   100%     648        0  100%   /dev
+map -hosts       0Bi    0Bi    0Bi   100%       0        0  100%   /net
+map auto_home    0Bi    0Bi    0Bi   100%       0        0  100%   /home
+/dev/disk2s1    15Gi  349Mi   14Gi     3%       0        0  100%   /Volumes/NO NAME
+
+[$] note all new elements under the Filesystem column, resulting from the flashdrive's insertion
+
+# note that there might be more than just disk2s1 rocking..... not sure if it makes more sense to `sudo diskutil unmountDisk /dev/disk2` to nab everything?
+$ sudo diskutil unmount /dev/disk2s1 # final arg is each new element of the first column of the previous command's output
+Password:
+Volume NO NAME on disk2s1 unmounted
+
+[$] note that the raw Filesystem name of the flashcard is any Filesystem name associated with it (each was used as the previous command's final arg) under this formatting function:
+# /dev/disk#s# -> /dev/rdisk#
+# (r prepends to last "directory", and trailing "s#" is truncated
+
+$ OS_IMG="/Users/mark/workspaces/images/2017-09-07-raspbian-stretch-lite.img"
+$ sudo dd bs=1m if="${OS_IMG}" of=/dev/rdisk2 conv=sync # if equals the OS image; of euqals the name of the raw Filesystem of the flashdrive as determined from the previous comment
+
+# that command may take 3 or so minutes, operating silently if no errors are thrown.
+# entering ctrl+T while it executes retrieves info from the process.
+# for example output, see below:
+load: 2.15  cmd: dd 3052 uninterruptible 0.11u 0.93s
+1153+0 records in
+1152+0 records out
+1207959552 bytes transferred in 86.393492 secs (13982067 bytes/sec)
+
+# now... for ssh... `df -h` or maybe `diskutil list` (with -plist for max programmability) yield the Filesystem and where it's mounted... Where it's mounted is important.
+$ df -h # find the line with the correct disk in the 'Filesystem' column, then retrieve the path in the 'Mounted on'
+$ mounted_on="/Volumes/boot"
+$ touch "${mounted_on}"/ssh
+
+$ sudo diskutil eject /dev/rdisk2
+Disk /dev/rdisk2 ejected
+
+[$] remove the micro sd card from the local machine
+[$] insert micro sd card, hdmi cable, [usb mouse,] and usb keyboard into raspberry pi
+[$] insert micro usb power supply into raspberry pi
+
+[$] after the pi concludes the boot process, login at the prompt using these credentials: username=pi passowrd=raspberry
+[$] (if this is a graphical ui os, the following command launches the gui: $ startx
+
+# steps regarding the network hookup...
