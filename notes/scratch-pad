@@ -1,0 +1,55 @@
+motivation
+  - to collect all the steps for provisioning raspberry pis that require human input
+
+quantities
+  - number of pis in a grid provisioning
+  - number of grid provisionings (1? 2 max? 3 if we're insane? 4 if we perpetually get things horribly wrong?)
+  - number of distinct OSes per grid (1? 2 max?)
+  - number of distinct OSes across all grids provisioned (more likely to exceed 1, given we may experiment)
+
+steps
+  - os image retrieval
+    (unlikely to be repeated per node; may be repeated across multiple grid provisionings)
+  - flashcard configuration
+    - local script with prompts; human needs to interact with the flashcard...
+  - os basic configuration
+    - including basic config changing like default language (the pis think we're Brits...)
+    - including ssh configuration (e.g. defaults aren't _great_ ...)
+
+  - kwas-sanctioned steps follow......
+
+  * /etc/profile.d should contain things like 'java.sh' that export variables and such (because those scripts are run on start)
+  - vim
+  - tmux
+  - hostname
+  * sudo apt-get update # enables apt-cache search
+  - java
+    - apt-cache search oracle | grep jdk # yields oracle-java8-jdk
+    - add JAVA_HOME... ( /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt/jre (see java in /etc/alternatives)
+  - hadoop
+    - manually fetch the binary tar
+    - scp to machine
+    - untar
+    - add bin dir to PATH
+    ...
+    - basic config like memory (256 MB?...) -- this happened to be in hadoop-env.sh
+    - in core-site.xml, add:
+      <property>   <name>fs.defaultFS</name>  <value>hdfs://localhost:8020</value>  </property>
+    - hdfs namenode -format
+
+todo now:
+    
+
+notes
+  - the purpose of this should be a beeline to ssh configuration, no? that's the crack
+    in the dam that allows all other configuration, even additional ssh configuration...
+    so the default ssh config would work, and that can be enabled by dropping a file
+    called 'ssh' into the boot partition of the micro sd card
+  - then the rest of this "workspace" defining the "manual" setup could be journaling
+    remaining steps that can be automated
+  - what the end-goal of this segment should be (since the original--what's required in meatspace-- is defeated):
+    the general setup for every pi
+  - the setup fractures into specifics depending on the role of the particular pi being configured, but certainly
+    all will have plenty of overlap to document and automate
+  - still necessary: identifying all aspects of OS configuration, etc., that will need addressing here...
+    - they'll all need practices established (e.g. how do we prefer to automate? -- probably anything that works is fine...)
