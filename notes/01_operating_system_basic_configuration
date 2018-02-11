@@ -1,0 +1,33 @@
+# This is a log of the commands executed to conigure basic aspects of a Raspbian OS on a Raspberry Pi.
+# It will be explicit so that it can translate to a playbook.
+
+# I'm being lazy about local/remote specifying for now, but should be clear enough...
+
+# Do basic installations
+00 $ sudo apt-get update
+
+01 $ sudo apt-get -y install vim
+02 $ sudo apt-get -y install tmux
+03 $ sudo apt-get -y install oracle-java8-jdk
+04 $ ln -s /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt/jre /etc/alternatives/jre 
+
+# Get hadoop on there
+04 $ mkdir /home/pi/hadoop
+05 $ [from-other] scp /Users/mark/workspaces/tars/hadoop-3.0.0-beta1.tar.gz $host:~/hadoop
+06 $ tar -xf /home/pi/hadoop/hadoop-3.0.0-beta1.tar.gz -C /home/pi/hadoop
+07 # scp over (to where?) java.sh (contains `export JAVA_HOME=/etc/alternatives/jre`)
+08 $ sudo echo ". /path/to/java.sh" >> /etc/profile.d
+09 # add `export PATH=$PATH:/home/pi/hadoop/hadoop-3.0.0-beta1/bin` via
+   # somewhere or another... /etc/profile.d again?
+
+# Configure hosts
+# TODO grab the essentials from the ongoing-debuggin scrawl
+
+# Configure hadoop
+10 # set memory in hadoop-env.sh (something like 256 MB)
+11 # add to core-site.xml `<property> <name>fs.defaultFS</name> <value>hdfs://localhost:8020</value> </property>
+
+# TODO this is about to get role-specific, so.... (also, absolutely must name hosts)
+
+11 $ [role:namenode] hdfs namenode -format
+12 $ [role:namenode] hdfs namenode

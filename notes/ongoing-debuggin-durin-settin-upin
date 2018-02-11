@@ -1,0 +1,59 @@
+This doc will record ongoing issues; it's a scratch pad to solve sequences of problems
+
+The problem: Can't get a second, distinct pi to data node itself onto the first pi (a nn + dn)
+
+A resource: https://medium.com/@jasonicarter/how-to-hadoop-at-home-with-raspberry-pi-part-1-3b71f1b8ac4e
+
+Some items to note:
+
+  [1] some basic network identification junk
+
+  they recommend adding to /etc/network/interfaces the following entries
+    ( which are based on the results of `hostname -I` )
+
+    iface eth0 inet static
+    address 192.168.0.107
+    netmask 255.255.255.0
+    gateway 192.168.0.1
+
+  (not sure those additions are necessary, yet)
+
+  they also note: add ipv4 addr and a hostname paired (tab sep.) to /etc/hosts
+    e.g. '192.168.0.30 nn-0'
+  and: make that paired hostname the replacement of 'raspberrypi' in /etc/hostname:
+    e.g. the only line will be 'nn-0' (not 'raspberrypi')
+
+  ( which, this is all to say, that I've designated one machine as...
+    nn-00 and dn-00 (though nn-00 is primary -- the one in /etc/hostname)
+  and another as dn-01 )
+
+  [2] some basic user account info
+
+  they say hey, add a group and a user... (they did have a password, but left defaults/blanks otherwise)
+
+  $ sudo addgroup hadoop
+  $ sudo adduser --ingroup hadoop huser
+  $ sudo adduser huser sudo
+
+
+======== OK, abandoning that strategy for right now; going to cloudera for more grounded/targeted setup:
+  https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Installation-Guide/cdh5ig_networknames_configure.html?scroll=topic_11_1
+
+1 set hostname of each system to a unique name
+
+  - I think they mean each server, not service
+  - they note that this is temporary, and does not persist beyond reboot
+
+  $ sudo hostname my-host-1
+
+2 make sure /etc/hosts file on each system contains the IP addresses and FQDNs of all members of the cluster
+
+  - the canonical name of each host in /etc/hosts MUST be the FQDN (e.g. my-host-1.mynet.myco.com),
+    not the unqualified hostname (e.g. my-host-1)
+  - the canonical name is the first entry after the IP address
+
+  $ sudo cat >> /etc/hosts
+    192.168.0.30    nn-00 dn-00
+    192.168.0.31    dn-01
+    # (well, that doesn't work for appending to /etc/hosts; echo the entries)
+  
