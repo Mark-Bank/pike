@@ -1,0 +1,9 @@
+---
+# say hi to a datanode, why doncha
+- hosts: datanodes
+  remote_user: pi
+  tasks:
+    - name: test connection
+      ping:
+    - name: say hello
+      command: /bin/echo hey-from-a-playbook
