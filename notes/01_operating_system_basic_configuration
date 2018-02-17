@@ -22,6 +22,24 @@
 
 # Configure hosts
 # TODO grab the essentials from the ongoing-debuggin scrawl
+# (this should really be ultra-preliminary, especially for the sake of blending into ansible-gov'd setup)
+
+# Configure ssh...
+#
+# (once) generate private key for the pi user
+#
+# (from conducting node)
+# $ ssh-keygen
+# # give unique file, e.g. ~/.ssh/pi_id_rsa
+#
+# (per host) cat ~/.ssh/pi_id_rsa | ssh pi@${host_being_configured} "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+#
+# (for convenience, from conducting node)
+# add entries per pi in ~/.ssh/config :
+# Host {various host names}
+#     HostName {static IP address}
+#     User pi
+#     IdentityFile ~/.ssh/pi_id_rsa
 
 # Configure hadoop
 10 # set memory in hadoop-env.sh (something like 256 MB)

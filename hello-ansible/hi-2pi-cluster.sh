@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ansible -k -i inventory -u pi all -m ping
+ansible -u pi --private-key=~/.ssh/pi_id_rsa all -m ping
