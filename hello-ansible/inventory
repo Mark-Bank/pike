@@ -1,3 +1,5 @@
+[namenodes]
 nn-00
-dn-00
-dn-01
+
+[datanodes]
+dn-[00:01]
