@@ -5,4 +5,4 @@ ansible all -m ping
 
 echo
 echo "doin something for the datanodes group"
-ansible -u pi --private-key=~/.ssh/pi_id_rsa datanodes -a "/bin/echo hey there, datanode"
+ansible datanodes -a "/bin/echo hey there, datanode"
