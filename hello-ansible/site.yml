@@ -1,0 +1,9 @@
+---
+# This playbook is like, ultra main for gluing roles to tasks, I think
+
+- hosts: namenodes datanodes
+  remote_user: pi
+  become: true
+
+  roles:
+    - base-linux
