@@ -1,8 +1,8 @@
 ---
 - name: make system.d logfiles persistent
   file:
-    path: /var/log/journal
     state: directory
+    path: /var/log/journal
     mode: 0700
     owner: root
     group: root

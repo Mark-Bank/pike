@@ -1,6 +1,7 @@
 ---
 - name: install oracle java8 jdk
   apt:
+    state: latest
     name: oracle-java8-jdk
 
 - name: link oracle java8 in /etc/alternatives

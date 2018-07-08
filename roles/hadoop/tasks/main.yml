@@ -1,10 +1,12 @@
 ---
 - name: add hadoop group
   group:
+    state: present
     name: hadoop
 
 - name: add hadoop user
   user:
+    state: present
     name: hadoop
     group: hadoop
     system: yes
