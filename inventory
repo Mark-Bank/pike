@@ -2,5 +2,8 @@
 nn-00
 
 [datanodes]
-dn-00
-dn-01
+dn-[00:01]
+
+[hadoop:children]
+namenodes
+datanodes

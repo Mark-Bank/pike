@@ -4,3 +4,8 @@
   roles:
     - base-linux
     - java
+
+- hosts: hadoop
+  become: yes
+  roles:
+    - hadoop

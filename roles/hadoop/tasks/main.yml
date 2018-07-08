@@ -1,0 +1,17 @@
+---
+- name: add hadoop group
+  group:
+    name: hadoop
+
+- name: add hadoop user
+  user:
+    name: hadoop
+    group: hadoop
+    system: yes
+
+- name: install hadoop distribution
+  unarchive:
+    src: ../../../distributions/hadoop-3.0.0-beta1.tar.gz
+    dest: /opt
+    owner: hadoop
+    group: hadoop
