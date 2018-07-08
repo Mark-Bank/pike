@@ -6,3 +6,23 @@
     mode: 0700
     owner: root
     group: root
+
+- name: set timezone to US Eastern
+  lineinfile:
+    state: present
+    path: /etc/timezone
+    line: America/New_York
+
+- name: point localtime to US Eastern
+  file:
+    state: link
+    name: /etc/localtime
+    src: /usr/share/zoneinfo/America/New_York
+
+- name: reconfigure timezone
+  command: dpkg-reconfigure -f noninteractive tzdata
+
+- name: install ntp
+  apt:
+    state: latest
+    name: ntp
