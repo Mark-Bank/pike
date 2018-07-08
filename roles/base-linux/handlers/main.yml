@@ -1,0 +1,9 @@
+---
+- name: point localtime to updated timezone
+  file:
+    state: link
+    name: /etc/localtime
+    src: /usr/share/zoneinfo/{{ timezone }}
+
+- name: reconfigure timezone data
+  command: dpkg-reconfigure -f noninteractive tzdata
