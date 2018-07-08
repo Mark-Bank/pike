@@ -1,0 +1,10 @@
+---
+- name: install oracle java8 jdk
+  apt:
+    name: oracle-java8-jdk
+
+- name: link oracle java8 in /etc/alternatives
+  file:
+    state: link
+    name: /etc/alternatives/jre
+    src: /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt/jre
