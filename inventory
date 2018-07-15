@@ -1,8 +1,8 @@
 [namenodes]
-nn-00
+nn-00.local
 
 [datanodes]
-dn-[00:01]
+dn-[00:01].local
 
 [hadoop:children]
 namenodes

@@ -11,9 +11,21 @@
     group: hadoop
     system: yes
 
-- name: install hadoop distribution
-  unarchive:
-    src: ../../../distributions/hadoop-3.0.0-beta1.tar.gz
-    dest: /opt
-    owner: hadoop
-    group: hadoop
+
+# temporarily commented out since it seems the copy is performed
+# before the task is confirmed to be skip-able
+#- name: install hadoop distribution
+#  unarchive:
+#    src: ../files/hadoop-3.0.0-beta1.tar.gz
+#    dest: "{{ installation_dir }}"
+#    owner: hadoop
+#    group: hadoop
+
+- name: test inventory accessing syntax
+  debug:
+    msg: "first namenode={{ groups['namenodes'][0] }}"
+
+- name: configure core-site
+  template:
+    src: core-site.xml.j2
+    dest: "{{ installation_dir }}/hadoop-3.0.0-beta1/etc/hadoop/core-site.xml"
