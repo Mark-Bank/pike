@@ -31,7 +31,10 @@
     src: core-site.xml.j2
     dest: "{{ installation_dir }}/etc/hadoop/core-site.xml"
 
-# TODO set JAVA_HOME
+- name: configure hadoop-env
+  template:
+    src: hadoop-env.sh.j2
+    dest: "{{ installation_dir }}/etc/hadoop/hadoop-env.sh"
 
 # TODO modify the provided template to output 1 json object
 #      (and add jq to the base-linux role)
