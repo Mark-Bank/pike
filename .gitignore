@@ -1,1 +1,3 @@
 *.swp
+site.retry
+roles/hadoop/files/hadoop-3.0.0-beta1.tar.gz

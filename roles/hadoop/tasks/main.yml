@@ -6,10 +6,12 @@
 
 # temporarily commented out since it seems the copy is performed
 # before the task is confirmed to be skip-able
+# TODO fix that
+# TODO change owner to... root?
 #- name: install hadoop distribution
 #  unarchive:
-#    src: ../files/{{ distribution_version }}.tar.gz
-#    dest: "{{ installation_dir }}"
+#    src: ../files/{{ distribution }}.tar.gz
+#    dest: "{{ base_installation_dir }}"
 #    owner: hadoop
 #    group: hadoop
 
@@ -18,19 +20,23 @@
     state: present
     path: /etc/profile
     insertbefore: "export PATH"
-    line: "PATH=\"${PATH}:{{ installation_dir }}/{{ distribution_version }}/bin\""
-
-# todo migrate to a variable on the namenodes group?
-- name: test inventory accessing syntax
-  debug:
-    msg: "first namenode={{ groups['namenodes'][0] }}"
+    line: "PATH=\"${PATH}:{{ installation_dir }}/bin\""
 
 - name: test PATH assignment value
   debug:
-    msg: "PATH=\"${PATH}:{{ installation_dir }}/{{ distribution_version }}/bin\""
-#    msg: "${PATH}:\"{{ installation_dir }}/{{ distribution_version }}/bin\"
+    msg: "PATH=\"${PATH}:{{ installation_dir }}/bin\""
 
 - name: configure core-site
   template:
     src: core-site.xml.j2
-    dest: "{{ installation_dir }}/{{ distribution_version }}/etc/hadoop/core-site.xml"
+    dest: "{{ installation_dir }}/etc/hadoop/core-site.xml"
+
+# TODO set JAVA_HOME
+
+# TODO modify the provided template to output 1 json object
+#      (and add jq to the base-linux role)
+- name: dump all variables
+  template:
+    src: dumpvars.j2
+    dest: /home/pi/vars
+

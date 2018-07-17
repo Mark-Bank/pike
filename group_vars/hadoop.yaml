@@ -1,0 +1,5 @@
+---
+base_installation_dir: /opt
+distribution: hadoop-3.0.0-beta1
+installation_dir: "{{ base_installation_dir }}/{{ distribution }}"
+primary_namenode: "{{ groups.namenodes[0] }}"
