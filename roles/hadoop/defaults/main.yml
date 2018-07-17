@@ -1,2 +1,3 @@
 ---
 installation_dir: /opt
+distribution_version: hadoop-3.0.0-beta1

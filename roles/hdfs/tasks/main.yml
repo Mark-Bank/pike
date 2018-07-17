@@ -1,0 +1,16 @@
+---
+- name: add hdfs group
+  group:
+    state: present
+    name: hdfs
+
+- name: add hdfs user
+  user:
+    state: present
+    name: hdfs
+    system: yes
+    createhome: no
+    group: hdfs
+    groups:
+      - hdfs
+      - hadoop

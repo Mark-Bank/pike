@@ -4,28 +4,33 @@
     state: present
     name: hadoop
 
-- name: add hadoop user
-  user:
-    state: present
-    name: hadoop
-    group: hadoop
-    system: yes
-
-
 # temporarily commented out since it seems the copy is performed
 # before the task is confirmed to be skip-able
 #- name: install hadoop distribution
 #  unarchive:
-#    src: ../files/hadoop-3.0.0-beta1.tar.gz
+#    src: ../files/{{ distribution_version }}.tar.gz
 #    dest: "{{ installation_dir }}"
 #    owner: hadoop
 #    group: hadoop
 
+- name: append hadoop bin directory to system path
+  lineinfile:
+    state: present
+    path: /etc/profile
+    insertbefore: "export PATH"
+    line: "PATH=\"${PATH}:{{ installation_dir }}/{{ distribution_version }}/bin\""
+
+# todo migrate to a variable on the namenodes group?
 - name: test inventory accessing syntax
   debug:
     msg: "first namenode={{ groups['namenodes'][0] }}"
 
+- name: test PATH assignment value
+  debug:
+    msg: "PATH=\"${PATH}:{{ installation_dir }}/{{ distribution_version }}/bin\""
+#    msg: "${PATH}:\"{{ installation_dir }}/{{ distribution_version }}/bin\"
+
 - name: configure core-site
   template:
     src: core-site.xml.j2
-    dest: "{{ installation_dir }}/hadoop-3.0.0-beta1/etc/hadoop/core-site.xml"
+    dest: "{{ installation_dir }}/{{ distribution_version }}/etc/hadoop/core-site.xml"
