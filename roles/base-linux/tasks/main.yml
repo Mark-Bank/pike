@@ -7,10 +7,31 @@
     owner: root
     group: root
 
-- name: install ntp
+# note: will need reconfigured when pi boards take on
+#       > 1 role...
+#       (consider the whole... only-runs-tasks-once paradigm
+#        to pull this off more successfully)
+- name: set up /etc/hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts-testerooski
+
+- name: install ntp, vim
   apt:
     state: latest
-    name: ntp
+    name: "{{ item }}"
+  with_items:
+    - ntp
+    - vim
+
+- name: echo a bunch of stuff in prep for /etc/hosts construction
+  debug:
+    msg: "printing... {{ item }}"
+  with_items:
+    - "groups.hadoop: {{ groups.hadoop }}"
+    - "inventory_hostname: {{ inventory_hostname }}"
+    - "inventory_hostname_short: {{ inventory_hostname_short }}"
+    - "ansible_default_ipv4: {{ ansible_default_ipv4.address}}"
 
 - name: set timezone to local timezone
   copy:
