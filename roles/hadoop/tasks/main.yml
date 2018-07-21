@@ -8,12 +8,19 @@
 # before the task is confirmed to be skip-able
 # TODO fix that
 # TODO change owner to... root?
+# TODO regardless of owner, it may be that other hadoop daemon accounts
+#      need higher permissions, requiring (possibility A) that the hadoop
+#      group's permissions be elevated
 #- name: install hadoop distribution
 #  unarchive:
 #    src: ../files/{{ distribution }}.tar.gz
 #    dest: "{{ base_installation_dir }}"
 #    owner: hadoop
 #    group: hadoop
+
+- name: test PATH assignment value
+  debug:
+    msg: "PATH=\"${PATH}:{{ installation_dir }}/bin\""
 
 - name: append hadoop bin directory to system path
   lineinfile:
@@ -22,10 +29,16 @@
     insertbefore: "export PATH"
     line: "PATH=\"${PATH}:{{ installation_dir }}/bin\""
 
-- name: test PATH assignment value
-  debug:
-    msg: "PATH=\"${PATH}:{{ installation_dir }}/bin\""
+- name: create hadoop logs directory
+  file:
+    state: directory
+    path: /var/log/hadoop
+    group: hadoop
+    mode: 0775
 
+# TODO on updates to core-site and possibly others,
+#      namenode may need restarted... (gonna get
+#      a bit more sophisticated with  ansible)
 - name: configure core-site
   template:
     src: core-site.xml.j2
