@@ -21,4 +21,22 @@
     <name>dfs.permissions.superusergroup</name>
     <value>hadoop</value>
   </property>
+<!-- see https://log.rowanto.com/why-datanode-is-denied-communication-with-namenode/
+     (this resolves a problem when datanodes attempt to register to the namenode) -->
+  <property>
+    <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file://{{ namenode_name_dir }}</value>
+  </property>
+  <property>
+    <name>dfs.namenode.checkpoint.dir</name>
+    <value>file://{{ namenode_checkpoint_dir }}</value>
+  </property>
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file://{{ datanode_data_dir }}</value>
+  </property>
 </configuration>

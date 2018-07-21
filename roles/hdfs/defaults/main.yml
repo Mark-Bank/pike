@@ -1,0 +1,4 @@
+---
+namenode_name_dir: "/data/1/dfs/nn"
+namenode_checkpoint_dir: "/data/1/dfs/nnsecondary"
+datanode_data_dir: "/data/1/dfs/dn"
