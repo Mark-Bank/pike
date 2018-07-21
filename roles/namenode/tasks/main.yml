@@ -1,1 +1,34 @@
 ---
+
+# TODO 1. format the namenode, conditionally...
+#
+#         a. if the nn is already formatted
+#
+#            i. if the user specified a blow-it-away
+#
+#               .. if the user specified blow it _all_ away
+#
+#                  - hdfs dfs -rm -r -f -skipTrash /
+#                  - clear whatever else
+#                  - format the namenode
+#
+#               .. if they specified just the namenode
+#
+#                  figure out what the implications are for
+#                  doing away with a namenode's metadata...
+#
+#           ii. if the user offered no such "blow it away" arg
+#
+#               .. leave it alone, sheesh!
+#
+#         b. if the nn hasn't been formatted
+#
+#            i. hdfs formats the namenode
+#
+#
+#      2. start the namenode service (if not running yet)
+#
+#      3. create /tmp (can this be done before datanodes??)
+#
+#         a. as hdfs $ hadoop fs -mkdir /tmp
+#                    $ hadoop fs -chmod -R 1777 /tmp

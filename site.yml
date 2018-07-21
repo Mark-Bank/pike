@@ -10,3 +10,10 @@
   roles:
     - hadoop
     - hdfs
+
+# TODO hdfs role will likely fall under hadoop,
+#      and a namenode-specific role under namenodes
+#- hosts: namenodes
+#  become: yes
+#  roles:
+#    - hdfs
