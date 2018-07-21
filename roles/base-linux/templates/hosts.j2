@@ -1,7 +1,5 @@
 127.0.0.1	localhost
 127.0.1.1	raspberrypi
-# (if useful for some reason)
-# 127.0.1.1	{{ inventory_hostname_short }}	raspberrypi
 
 ::1		localhost ip6-localhost ip6-loopback
 ff02::1		ip6-allnodes
@@ -9,7 +7,5 @@ ff02::2		ip6-allrouters
 
 # Pike
 {% for host in groups['hadoop'] %}
-# (if non-FQDN is useful, uncomment...)
-# {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}	{{ host }}	{{ hostvars[host]['ansible_nodename'] }}
 {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}	{{ host }}
 {% endfor %}

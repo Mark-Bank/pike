@@ -7,15 +7,6 @@
     owner: root
     group: root
 
-# note: will need reconfigured when pi boards take on
-#       > 1 role...
-#       (consider the whole... only-runs-tasks-once paradigm
-#        to pull this off more successfully)
-- name: set up /etc/hosts
-  template:
-    src: hosts.j2
-    dest: /etc/hosts-testerooski
-
 - name: install ntp, vim
   apt:
     state: latest
@@ -32,6 +23,19 @@
     - "inventory_hostname: {{ inventory_hostname }}"
     - "inventory_hostname_short: {{ inventory_hostname_short }}"
     - "ansible_default_ipv4: {{ ansible_default_ipv4.address}}"
+
+# note: will need reconfigured when pi boards take on
+#       > 1 role...
+#       (consider the whole... only-runs-tasks-once paradigm
+#        to pull this off more successfully)
+# also: should this be "base" ? Or what? Part of a general...
+#       configure-the-whole-cluster situation? Or should roles append
+#       themselves when they're running? (which could solve the
+#       multi-hostname per address issue)
+- name: set up /etc/hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
 
 - name: set timezone to local timezone
   copy:
