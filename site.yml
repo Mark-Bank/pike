@@ -11,6 +11,17 @@
     - hadoop
     - hdfs
 
+# TODO consider localizing become to tasks? Narrow the scope of root...
+- hosts: namenodes
+  become: yes
+  roles:
+    - namenode
+
+- hosts: datanodes
+  become: yes
+  roles:
+    - datanode
+
 # TODO hdfs role will likely fall under hadoop,
 #      and a namenode-specific role under namenodes
 #- hosts: namenodes

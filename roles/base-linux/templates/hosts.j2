@@ -7,5 +7,5 @@ ff02::2		ip6-allrouters
 
 # Pike
 {% for host in groups['hadoop'] %}
-{{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}	{{ host }}
+{{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}	{{ host }}	{{ hostvars[host]['ansible_nodename'] }}
 {% endfor %}

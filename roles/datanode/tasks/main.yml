@@ -1,0 +1,10 @@
+---
+- name: create local fs datanode data directory
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: hdfs
+    group: hdfs
+    mode: 0700
+  with_items:
+    - "{{ datanode_data_dir }}"

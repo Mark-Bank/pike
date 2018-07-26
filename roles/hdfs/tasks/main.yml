@@ -15,18 +15,6 @@
       - hdfs
       - hadoop
 
-- name: create local fs namenode and datanode directories
-  file:
-    state: directory
-    path: "{{ item }}"
-    owner: hdfs
-    group: hdfs
-    mode: 0700
-  with_items:
-    - "{{ namenode_name_dir }}"
-    - "{{ namenode_checkpoint_dir }}"
-    - "{{ datanode_data_dir }}"
-
 - name: configure hdfs-site
   template:
     src: hdfs-site.xml.j2

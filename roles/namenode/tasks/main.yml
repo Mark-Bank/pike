@@ -1,4 +1,14 @@
 ---
+- name: create local fs namenode directories
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: hdfs
+    group: hdfs
+    mode: 0700
+  with_items:
+    - "{{ namenode_name_dir }}"
+    - "{{ namenode_checkpoint_dir }}"
 
 # TODO 1. format the namenode, conditionally...
 #

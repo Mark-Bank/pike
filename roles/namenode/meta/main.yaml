@@ -1,3 +1,5 @@
 ---
+# TODO this is probably redundant with the playbook explicitly specifying
+#      this already (choose one or the other?)
 dependencies:
   - { role: hdfs }

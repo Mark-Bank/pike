@@ -3,3 +3,6 @@ base_installation_dir: /opt
 distribution: hadoop-3.0.0-beta1
 installation_dir: "{{ base_installation_dir }}/{{ distribution }}"
 primary_namenode: "{{ groups.namenodes[0] }}"
+namenode_name_dir: /data/1/dfs/nn
+namenode_checkpoint_dir: /data/1/dfs/nnsecondary
+datanode_data_dir: /data/1/dfs/dn
