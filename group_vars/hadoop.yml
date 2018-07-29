@@ -1,8 +1,38 @@
 ---
+# TODO consigning multipe roles to servers may mean divorcing hostnames from straight name
+#
+#   options...
+#
+#   A) name all hosts pi-0x
+#      assign hosts to roles via groups in inventory or something akin...
+#   B) give hosts 1 meaningful name according to precedence rules of roles
+#      e.g. nn > dn > resource-manager > history-server .....
+#   C) give host hostname aliases per role it serves
+#      _might_ still require canonical name be some certain name
+#   D) some combination of these
+
+# basic setup
 base_installation_dir: /opt
 distribution: hadoop-3.0.0-beta1
 installation_dir: "{{ base_installation_dir }}/{{ distribution }}"
+# namenode
+# TODO consider defining these inventory-rooted data in some inventory-structured definition...
+#   e.g. a group or alias. Or move this to group_vars/namenodes.yml
 primary_namenode: "{{ groups.namenodes[0] }}"
 namenode_name_dir: /data/1/dfs/nn
 namenode_checkpoint_dir: /data/1/dfs/nnsecondary
+# datanode
 datanode_data_dir: /data/1/dfs/dn
+# yarn
+#resource_manager: "{{ groups.namenodes[0] }}"
+nodemanager_local_dir: /data/1/yarn/local
+nodemanager_aux_services: mapreduce_shuffle
+nodemanager_resource_memory_mb: 128
+nodemanager_resource_cpu_vcores: 1
+yarn_log_aggregation: true
+nodemanager_log_dir: /data/1/yarn/logs
+nodemanager_remote_app_log_dir: /var/log/hadoop-yarn/apps
+# mapred
+mapreduce_framework_name: yarn
+mapreduce_am_staging_dir: /user
+mapreduce_history_dir: "{{ mapreduce_am_staging_dir }}"/history

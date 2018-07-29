@@ -1,0 +1,32 @@
+---
+- name: add mapred group
+  group:
+    state: present
+    name: mapred
+
+- name: add mapred user
+  user:
+    state: present
+    name: mapred
+    system: yes
+    createhome: no
+    group: mapred
+    groups:
+      - mapred
+      - hadoop
+
+- name: configure mapred-site
+  template:
+    src: mapred-site.xml.j2
+    dest: "{{ installation_dir }}/etc/hadoop/mapred-site.xml"
+
+# TODO this task is "unarticulated" since it requires hdfs
+#      be running... And _that's_ fancy
+#- name: create history hdfs directory
+#  command: hdfs dfs {{ item }} {{ mapreduce_history_dir }}
+#  become: yes
+#  become_user: hdfs
+#  with_items:
+#    - "-mkdir -p"
+#    - "-chmod -R 1777"
+#    - "-chown mapred:hadoop"

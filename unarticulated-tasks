@@ -1,0 +1,34 @@
+Commands that haven't made their way into roles' tasks yet.
+
+- namenode formatting
+  sudo -u hdfs hdfs namenode -format
+  (from here on out, hdfs commands assume becoming hdfs by this or ansible means)
+
+- namenode daemon launch
+
+- datanode daemon launch
+
+- hdfs /tmp dir creation
+  hdfs dfs -mkdir /tmp
+  hdfs dfs -chmod -R 1777 /tmp
+
+- hdfs /user dir creation
+  hdfs dfs -mkdir /user
+
+- hdfs user setup
+  hdfs dfs -mkdir /user/{{ user }}
+  hdfs dfs -chown {{ user }} /user/{{ user }}
+  hdfs dfsadmin -refreshUserToGroupMappings # didn't seem necessary
+
+- hdfs /user/history dir creation
+  (see mapred role)
+
+- hdfs /var/log/hadoop-yarn dir creation
+  hdfs dfs -mkdir -p {{ it's a yarn variable in group_vars/hadoop.yml }}
+    note: no, it isn't quite; it needs '/apps' lopped off the end to be 2 variables
+          1) sans /apps = what gets created here
+          2) w/   /apps = what gets specified in the properties file
+  hdfs dfs -chown yarn:mapred {{ what gets created }}
+
+  note: mapred and yarn roles could be close to circular dependency
+        mapred requires the yarn user to exist...

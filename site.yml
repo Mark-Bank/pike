@@ -22,6 +22,16 @@
   roles:
     - datanode
 
+#- hosts: datanodes[0]
+#  roles:
+#    - yarn
+
+# TODO majorly: need to specify this much better
+- hosts: namenodes[0]
+  become: yes
+  roles:
+    - yarn
+
 # TODO hdfs role will likely fall under hadoop,
 #      and a namenode-specific role under namenodes
 #- hosts: namenodes

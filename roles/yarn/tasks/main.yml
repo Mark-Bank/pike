@@ -1,0 +1,32 @@
+---
+- name: add yarn group
+  group:
+    state: present
+    name: yarn
+
+- name: add yarn user
+  user:
+    state: present
+    name: yarn
+    system: yes
+    createhome: no
+    group: yarn
+    groups:
+      - yarn
+      - hadoop
+
+- name: configure yarn-site
+  template:
+    src: yarn-site.xml.j2
+    dest: "{{ installation_dir }}/etc/hadoop/yarn-site.xml"
+
+- name: create yarn directories
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: yarn
+    group: yarn
+    mode: 0755
+  with_items:
+    - "{{ nodemanager_local_dir }}"
+    - "{{ nodemanager_log_dir }}"
